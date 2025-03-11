@@ -1,5 +1,4 @@
 import cv2
-import keyboard
 import numpy as np
 from Lib.Graphics.AnalogGauge import AnalogGauge
 
