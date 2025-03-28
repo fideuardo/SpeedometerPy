@@ -20,7 +20,7 @@ class Speedometer:
 
         if self.type == "analog":
             self.speed_gauge = AnalogGauge(
-                image=base_image,
+                image=self.base_image,
                 max_value=self.MaxSpeed,
                 min_value=0,
                 minor_marks=20,
@@ -38,9 +38,9 @@ class Speedometer:
             np.ndarray: The updated base image with the speedometer overlayed.
         """
         # Draw the speedometer gauge
-        speed_img = self.speed_gauge.update_display()
+        return self.speed_gauge.update_display()
 
-        return speed_img
+        
     
     def set_speed(self, speed):
         """
