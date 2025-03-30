@@ -1,0 +1,3 @@
+[submodule "Lib/Graphics"]
+	path = Lib/Graphics
+	url = git@github.com:fideuardo/IPCGLpy.git
