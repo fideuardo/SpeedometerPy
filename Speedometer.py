@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from .Lib.Graphics.AnalogGauge import AnalogGauge
+from Lib.Graphics.AnalogGauge import AnalogGauge
 
 class Speedometer:
     def __init__(self, image: np.ndarray, type="analog", MaxValue=240):
@@ -52,20 +52,69 @@ class Speedometer:
         if( self.current_speed != speed):
             self.current_speed = speed
 
-        self.speed_gauge.update_value(speed)
+        self.speed_gauge.needle_position_range = speed
 
 
 
 if __name__ == "__main__":
     # Define the size of the main window
+    imagename = 'speedometer'
     window_size = (500, 800, 3)
-    base_image = np.zeros(window_size, dtype=np.uint8)
-    base_image[:, :] = (0, 0, 0)  # Black background
+    MaxSpeed = 240
+    MinSpeed = 0
+    speed = 0
+    imagecontainer= np.zeros(window_size, dtype=np.uint8)
+    imagecontainer[:, :] = (0, 0, 0)  # Black background
 
     # Create the Speedometer instance
-    speedometer = Speedometer(image=base_image, type = "analog", MaxValue=240)
-    base_image = speedometer.draw()
+    speedometer = Speedometer(image=imagecontainer, type = "analog", MaxValue = MaxSpeed)
+    # Create window image
+    cv2.namedWindow(imagename)
 
-    cv2.imshow("speedometer", base_image)
-    cv2.waitKey()
+    while True:
+        # Display the updated image in the window
+        cv2.imshow(imagename, imagecontainer)
+        # Wait for a key press
+        # 0xFF is used to mask the key value to get the last 8 bits
+        key = cv2.waitKey(1) & 0xFF
+
+        # Exit if 'q' is pressed
+        if key == ord('q'):
+            break
+        if key == ord('a'):
+            # set speedometer speed value to 0
+            speed = 0
+
+        if key == ord('b'):
+            # Update speedometer speed value to 25
+            speed = 25
+
+        if key == ord('c'):
+            # Update speedometer speed value
+            speed = 50
+
+        if key == ord('d'):
+            # Update speedometer speed value
+            speed = 75
+
+        if key == ord('e'):
+            # Update speedometer speed value
+            speed = 100
+
+        if key == ord('+'):
+            # Update speedometer speed value
+            speed = speed + 5
+            if speed > MaxSpeed:
+                speed = MaxSpeed
+
+        if key == ord('-'):
+            # Update speedometer speed value
+            speed = speed - 5
+            if speed < MinSpeed:
+                speed = MinSpeed
+        
+        # Update speedometer speed value    
+        speedometer.set_speed(speed)
+
+    
     cv2.destroyAllWindows()
