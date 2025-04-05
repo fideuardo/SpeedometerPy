@@ -2,7 +2,7 @@
 This class is focus to implement and control all the requirements associted to Speedometer. 
 ## Install Project
 ### Clone Repository
-```console
+```bash
  git clone git@github.com:fideuardo/SpeedometerPy.git --recursive
  git submodule update --init --recursive
 ```
@@ -10,17 +10,20 @@ This class is focus to implement and control all the requirements associted to S
 ### Environment Development
 For more information -> [Python environments in VS Code](https://code.visualstudio.com/docs/python/environments).
 
-```console
+```bash
 python -m venv venv
 ```
 **Don't forget activate virtual environment**
-
-```console
+git bash 
+```bash
+source venv/Scripts/activate
+```
+```bash
 pip install -r requirements.txt
 ```
 
 ### Run project
-```console
+```bash
 python src/IPCpy.py
 ```
 
