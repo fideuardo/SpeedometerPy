@@ -27,8 +27,8 @@ class Speedometer:
                 units='km/h',
                 arch=180,
                 phase=180)
-            self.speed_gauge.needle_position_range = self.current_speed
-        
+            self.speed_gauge.SetValue(self.current_speed)
+        self.speed_gauge.update_display()
 
     def draw(self):
         """
@@ -37,8 +37,7 @@ class Speedometer:
         Returns:
             np.ndarray: The updated base image with the speedometer overlayed.
         """
-        # Draw the speedometer gauge
-        return self.speed_gauge.update_display()
+        self.speed_gauge.update_display()
 
         
     
@@ -51,8 +50,8 @@ class Speedometer:
         """
         if( self.current_speed != speed):
             self.current_speed = speed
-
-        self.speed_gauge.needle_position_range = speed
+            self.speed_gauge.SetValue(speed) 
+            self.speed_gauge.update_display()
 
 
 
@@ -70,10 +69,11 @@ if __name__ == "__main__":
     speedometer = Speedometer(image=imagecontainer, type = "analog", MaxValue = MaxSpeed)
     # Create window image
     cv2.namedWindow(imagename)
+    cv2.imshow(imagename, imagecontainer)
 
     while True:
         # Display the updated image in the window
-        cv2.imshow(imagename, imagecontainer)
+        #cv2.imshow(imagename, imagecontainer)
         # Wait for a key press
         # 0xFF is used to mask the key value to get the last 8 bits
         key = cv2.waitKey(1) & 0xFF
@@ -83,23 +83,23 @@ if __name__ == "__main__":
             break
         if key == ord('a'):
             # set speedometer speed value to 0
-            speed = 0
+            speed = int(0)
 
         if key == ord('b'):
             # Update speedometer speed value to 25
-            speed = 25
+            speed = int((MaxSpeed * 0.25))
 
         if key == ord('c'):
             # Update speedometer speed value
-            speed = 50
+            speed = int((MaxSpeed * 0.50))
 
         if key == ord('d'):
             # Update speedometer speed value
-            speed = 75
+            speed = int((MaxSpeed * 0.75))
 
         if key == ord('e'):
             # Update speedometer speed value
-            speed = 100
+            speed = int(MaxSpeed)
 
         if key == ord('+'):
             # Update speedometer speed value
@@ -115,6 +115,7 @@ if __name__ == "__main__":
         
         # Update speedometer speed value    
         speedometer.set_speed(speed)
+        cv2.imshow(imagename, imagecontainer)
 
     
     cv2.destroyAllWindows()
